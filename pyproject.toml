@@ -138,4 +138,4 @@ show_error_codes = true
 strict = true
 
 [tool.uv.sources]
-playa-pdf = { git = "https://github.com/dhdaines/playa", rev = "accept_bytes" }
+playa-pdf = { git = "https://github.com/dhdaines/playa", rev = "main" }

@@ -1,22 +1,35 @@
 from __future__ import annotations
 
+from dataclasses import asdict
 from functools import partial
 from typing import Any, TypedDict, cast
 
 import playa
 from playa.page import Page, PathObject, PathOperator
+from playa.pdftypes import ObjRef, PSLiteral
 
 from kreuzberg._sync import run_taskgroup
 
 
-class ColorMetadata(TypedDict):
-    """Color information for PDF objects."""
+class DestinationMetadata(TypedDict):
+    """Metadata for a PDF destination."""
 
-    stroke: str
-    """Stroking color in string format."""
+    page_idx: int | None
+    """Page index for the destination."""
+    display: str | None
+    """Display mode for the destination."""
+    coords: tuple[float | None, ...]
+    """Coordinates of the destination."""
 
-    fill: str
-    """Non-stroking (fill) color in string format."""
+
+class ActionMetadata(TypedDict):
+    """Metadata for a PDF action."""
+
+    type: str
+    """Type of action."""
+
+    destination: DestinationMetadata | None
+    """Destination reference, if present."""
 
 
 class MarkedContentMetadata(TypedDict):
@@ -38,8 +51,8 @@ class TextObjectMetadata(TypedDict):
     bbox: tuple[float, float, float, float]
     """Bounding box coordinates (left, top, right, bottom)."""
 
-    color: ColorMetadata
-    """Color information for the text."""
+    graphic_state: dict[str, Any]
+    """The graphic state of the path object."""
 
     marked_content: MarkedContentMetadata
     """Marked content section information."""
@@ -61,8 +74,8 @@ class PathObjectMetadata(TypedDict):
     bbox: tuple[float, float, float, float]
     """Bounding box coordinates."""
 
-    color: ColorMetadata
-    """Color information for the path."""
+    graphic_state: dict[str, Any]
+    """The graphic state of the path object."""
 
     segments: list[PathSegmentMetadata]
     """List of path segments."""
@@ -120,10 +133,10 @@ class MarkedContentSectionMetadata(TypedDict):
 class PageMetadata(TypedDict):
     """Detailed metadata for a single PDF page."""
 
-    number: int
+    index: int
     """0-based page number."""
 
-    label: str
+    page_number: str
     """Page label (could be roman numerals, letters, etc)."""
 
     dimensions: tuple[int, int]
@@ -151,16 +164,16 @@ class PageMetadata(TypedDict):
 class OutlineEntryMetadata(TypedDict):
     """Metadata for a document outline entry."""
 
-    title: str
+    title: str | None
     """Title of the outline entry."""
 
-    destination: str
+    destination: DestinationMetadata | None
     """Destination reference."""
 
-    action: str
+    action: ActionMetadata | None
     """Action to perform when entry is activated."""
 
-    element: str
+    element: str | None
     """Associated structure element reference."""
 
 
@@ -196,6 +209,29 @@ class DocumentMetadata(TypedDict):
     """Detailed metadata for each page."""
 
 
+def _parse_to_string(value: Any) -> str:
+    return f"/{value.name}" if isinstance(value, PSLiteral) else str(value)
+
+
+def _normalize_to_dict(value: Any) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        return {}
+
+    normalized_items = [(k.lower(), v.resolve() if isinstance(v, ObjRef) else v) for k, v in value.items()]
+
+    ret: dict[str, Any] = {}
+    for k, v in normalized_items:
+        if isinstance(v, dict):
+            ret[k] = _normalize_to_dict(v)
+        elif isinstance(v, list):
+            ret[k] = [_normalize_to_dict(item) for item in v]
+        elif isinstance(v, PSLiteral):
+            ret[k] = _parse_to_string(v)
+        else:
+            ret[k] = v
+    return ret
+
+
 async def extract_page_metadata(page: Page) -> PageMetadata:
     """Extract detailed metadata from a single PDF page.
 
@@ -215,7 +251,7 @@ async def extract_page_metadata(page: Page) -> PageMetadata:
             text_objects.append(
                 TextObjectMetadata(
                     bbox=obj.bbox,
-                    color=ColorMetadata(stroke=str(obj.gstate.scolor), fill=str(obj.gstate.ncolor)),
+                    graphic_state=_normalize_to_dict(asdict(obj.gstate) if obj.gstate else {}),
                     marked_content=MarkedContentMetadata(
                         tag=obj.mcs.tag if obj.mcs else "",
                         properties=obj.mcs.props if obj.mcs else {},
@@ -231,7 +267,7 @@ async def extract_page_metadata(page: Page) -> PageMetadata:
             path_objects.append(
                 PathObjectMetadata(
                     bbox=obj.bbox,
-                    color=ColorMetadata(stroke=str(obj.gstate.scolor), fill=str(obj.gstate.ncolor)),
+                    graphic_state=_normalize_to_dict(asdict(obj.gstate) if obj.gstate else {}),
                     segments=segments,
                 )
             )
@@ -243,7 +279,7 @@ async def extract_page_metadata(page: Page) -> PageMetadata:
             marked_content.append(
                 MarkedContentSectionMetadata(
                     tag=obj.mcs.tag if obj.mcs else "",
-                    properties=obj.mcs.props if obj.mcs else {},
+                    properties=_normalize_to_dict(obj.mcs.props) if obj.mcs else {},
                     mcid=obj.mcs.mcid if obj.mcs and hasattr(obj.mcs, "mcid") else None,
                     bbox=obj.bbox,
                 )
@@ -251,13 +287,13 @@ async def extract_page_metadata(page: Page) -> PageMetadata:
 
     return PageMetadata(
         annotations=[
-            AnnotationMetadata(subtype=annot.subtype, rect=annot.rect, properties=annot.props)
+            AnnotationMetadata(subtype=annot.subtype, rect=annot.rect, properties=_normalize_to_dict(annot.props))
             for annot in page.annotations
         ],
         dimensions=(int(page.width), int(page.height)),
-        label=str(page.label) if page.label is not None else "",
+        page_number=str(page.label) if page.label is not None else "",
         marked_content=marked_content,
-        number=page.page_idx,
+        index=page.page_idx,
         path_objects=path_objects,
         rotation=page.rotate,
         text_objects=text_objects,
@@ -275,14 +311,31 @@ async def extract_pdf_metadata(pdf_content: bytes) -> DocumentMetadata:
         DocumentMetadata containing all extractable information.
     """
     document = playa.parse(pdf_content, max_workers=1, space="screen")
-    tasks = [partial(extract_page_metadata, cast(Page, page))() for page in document]
+    tasks = [partial(extract_page_metadata, page)() for page in document.pages]
     pages: list[PageMetadata] = await run_taskgroup(*tasks)
 
     outline = [
         OutlineEntryMetadata(
-            title=str(entry.title) if entry.title is not None else "",
-            destination=str(entry.destination),
-            action=str(entry.action),
+            title=entry.title,
+            destination=DestinationMetadata(
+                page_idx=entry.destination.page_idx,
+                display=_parse_to_string(entry.destination.display),
+                coords=entry.destination.coords,
+            )
+            if entry.destination
+            else None,
+            action=ActionMetadata(
+                type=_parse_to_string(entry.action.type),
+                destination=DestinationMetadata(
+                    page_idx=entry.action.destination.page_idx,
+                    display=_parse_to_string(entry.action.destination.display),
+                    coords=entry.action.destination.coords,
+                )
+                if entry.action.destination
+                else None,
+            )
+            if entry.action
+            else None,
             element=str(entry.element),
         )
         for entry in (document.outline or [])
