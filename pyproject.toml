@@ -40,6 +40,7 @@ dependencies = [
   "charset-normalizer>=3.4.1",
   "exceptiongroup>=1.2.2; python_version<'3.11'",
   "html-to-markdown>=1.2.0",
+  "playa-pdf",
   "pypdfium2>=4.30.1",
   "python-calamine>=0.3.1",
   "python-pptx>=1.0.2",
@@ -135,3 +136,6 @@ disable_error_code = 'import-untyped'
 implicit_reexport = false
 show_error_codes = true
 strict = true
+
+[tool.uv.sources]
+playa-pdf = { git = "https://github.com/dhdaines/playa", rev = "accept_bytes" }

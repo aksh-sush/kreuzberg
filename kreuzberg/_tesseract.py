@@ -226,9 +226,7 @@ async def batch_process_images(
     """
     await validate_tesseract_version()
     try:
-        return await run_taskgroup_batched(
-            *[partial(process_image_with_tesseract, image, language=language, psm=psm) for image in images],
-            batch_size=max_processes,
-        )
+        tasks = [partial(process_image_with_tesseract, image, language=language, psm=psm)() for image in images]
+        return await run_taskgroup_batched(*tasks, batch_size=max_processes)
     except ExceptionGroup as eg:
         raise ParsingError("Failed to process images with Tesseract", context={"errors": eg.exceptions}) from eg
