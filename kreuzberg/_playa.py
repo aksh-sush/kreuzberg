@@ -210,10 +210,26 @@ class DocumentMetadata(TypedDict):
 
 
 def _parse_to_string(value: Any) -> str:
+    """Parse a PDF object to a string representation.
+
+    Args:
+        value: The PDF object to parse.
+
+    Returns:
+        A string representation of the PDF object.
+    """
     return f"/{value.name}" if isinstance(value, PSLiteral) else str(value)
 
 
 def _normalize_to_dict(value: Any) -> dict[str, Any]:
+    """Normalize a PDF object to a serializable dictionary.
+
+    Args:
+        value: The PDF object to normalize.
+
+    Returns:
+        A dictionary representation of the PDF object.
+    """
     if not isinstance(value, dict):
         return {}
 
@@ -232,7 +248,7 @@ def _normalize_to_dict(value: Any) -> dict[str, Any]:
     return ret
 
 
-async def extract_page_metadata(page: Page) -> PageMetadata:
+async def _extract_page_metadata(page: Page) -> PageMetadata:
     """Extract detailed metadata from a single PDF page.
 
     Args:
@@ -311,7 +327,7 @@ async def extract_pdf_metadata(pdf_content: bytes) -> DocumentMetadata:
         DocumentMetadata containing all extractable information.
     """
     document = playa.parse(pdf_content, max_workers=1, space="screen")
-    tasks = [partial(extract_page_metadata, page)() for page in document.pages]
+    tasks = [partial(_extract_page_metadata, page)() for page in document.pages]
     pages: list[PageMetadata] = await run_taskgroup(*tasks)
 
     outline = [
