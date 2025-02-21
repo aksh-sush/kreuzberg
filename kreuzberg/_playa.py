@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import asdict
-from functools import partial
 from typing import Any, TypedDict, cast
 
 import playa
@@ -327,7 +326,7 @@ async def extract_pdf_metadata(pdf_content: bytes) -> DocumentMetadata:
         DocumentMetadata containing all extractable information.
     """
     document = playa.parse(pdf_content, max_workers=1, space="screen")
-    tasks = [partial(_extract_page_metadata, page)() for page in document.pages]
+    tasks = [_extract_page_metadata(page) for page in document.pages]
     pages: list[PageMetadata] = await run_taskgroup(*tasks)
 
     outline = [

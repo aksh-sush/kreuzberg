@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 from functools import partial
-from typing import TYPE_CHECKING, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from anyio import create_task_group
 from anyio.to_thread import run_sync as any_io_run_sync
@@ -34,7 +34,7 @@ async def run_sync(sync_fn: Callable[P, T], *args: P.args, **kwargs: P.kwargs) -
     return cast(T, await any_io_run_sync(handler, *args, abandon_on_cancel=True))  # pyright: ignore [reportCallIssue]
 
 
-async def run_taskgroup(*async_tasks: Awaitable[T]) -> list[T]:
+async def run_taskgroup(*async_tasks: Awaitable[Any]) -> list[Any]:
     """Run a list of coroutines concurrently.
 
     Args:
@@ -43,7 +43,7 @@ async def run_taskgroup(*async_tasks: Awaitable[T]) -> list[T]:
     Returns:
         The results of the coroutines.
     """
-    results = cast(list[T], [None] * len(async_tasks))
+    results: list[Any] = [None] * len(async_tasks)
 
     async def run_task(index: int, task: Awaitable[T]) -> None:
         results[index] = await task
@@ -55,7 +55,7 @@ async def run_taskgroup(*async_tasks: Awaitable[T]) -> list[T]:
     return results
 
 
-async def run_taskgroup_batched(*async_tasks: Awaitable[T], batch_size: int) -> list[T]:
+async def run_taskgroup_batched(*async_tasks: Awaitable[Any], batch_size: int) -> list[Any]:
     """Run a list of coroutines concurrently in batches.
 
     Args:
@@ -65,7 +65,7 @@ async def run_taskgroup_batched(*async_tasks: Awaitable[T], batch_size: int) -> 
     Returns:
         The results of the coroutines.
     """
-    results: list[T] = []
+    results: list[Any] = []
 
     for i in range(0, len(async_tasks), batch_size):
         batch = async_tasks[i : i + batch_size]
