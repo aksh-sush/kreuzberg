@@ -2,106 +2,106 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://goldziher.github.io/kreuzberg/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/changelog/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/contributing/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/advanced/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/advanced/custom-extractors/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/advanced/custom-hooks/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/advanced/error-handling/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/api-reference/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/api-reference/exceptions/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/api-reference/extraction-functions/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/api-reference/extractor-registry/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/api-reference/ocr-configuration/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/api-reference/types/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/examples/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/examples/extraction-examples/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/getting-started/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/getting-started/installation/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/getting-started/quick-start/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/user-guide/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/user-guide/basic-usage/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/user-guide/chunking/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/user-guide/extraction-configuration/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/user-guide/metadata-extraction/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/user-guide/ocr-backends/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/user-guide/ocr-configuration/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
     <url>
          <loc>https://goldziher.github.io/kreuzberg/user-guide/supported-formats/</loc>
-         <lastmod>2025-03-23</lastmod>
+         <lastmod>2025-03-28</lastmod>
     </url>
 </urlset>
