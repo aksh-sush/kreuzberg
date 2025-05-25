@@ -102,9 +102,77 @@ Kreuzberg supports multiple OCR engines:
 
 For comparison and selection guidance, see the [OCR Backends](https://goldziher.github.io/kreuzberg/user-guide/ocr-backends/) documentation.
 
-## Contribution
+Sure! Here's your cleaned-up version with all headers reduced to `#` and formatting kept concise for a smooth README experience:
+
+
+# Contribution
 
 This library is open to contribution. Feel free to open issues or submit PRs. It's better to discuss issues before submitting PRs to avoid disappointment.
+
+If you're familiar with what to do, that’s great. But if you're lost in the myriad of tools and libraries, here’s a quick head-start to help you get familiar with the repo
+
+
+### 🔧 Basics
+
+`attrs`, `typing-extensions`, `decorator` – Simplify class creation and type handling.
+`setuptools`, `virtualenv`, `filelock`, `distlib` – Manage packaging and environments.
+`pathspec`, `pyyaml`, `pyyaml-env-tag`, `jsonpointer`, `jsonpatch`, `orjson`, `ujson` – Handle config and data formats.
+`zipp`, `regex`, `six` – Utilities for zip, regex, and cross-version support.
+
+### 🕸️ Web Requests & Networking
+
+`aiohttp`, `requests`, `aiohappyeyeballs`, `async-timeout`, `idna`, `charset-normalizer`, `certifi`, `urllib3`, `requests-toolbelt`, `yarl` – Handle HTTP, URLs, and async requests.
+
+### 🖼️ Image Processing & Vision
+
+`opencv-python-headless`, `Pillow` – Core image handling.
+`scikit-image`, `numpy`, `scipy` – Image math and analysis.
+`albumentations`, `albucore` – Data augmentation for ML.
+`easyocr`, `pyclipper`, `tifffile` – OCR, shape ops, and TIFF support.
+
+### 📄 Document & Office Files
+
+`python-docx`, `python-pptx` – Work with Word and PowerPoint.
+`openpyxl`, `xlsxwriter`, `et-xmlfile` – Handle Excel files.
+
+### 📊 Data Handling
+
+`pandas`, `tabulate`, `prettytable` – Tables, dataframes, pretty outputs.
+`pyparsing`, `jsonpointer`, `more-itertools`, `sortedcontainers` – Parsing, data structures, iteration helpers.
+
+### 🤖 Machine Learning
+
+`torch`, `torchvision`, `triton`, `einops` – Deep learning tools.
+`huggingface-hub`, `safetensors`, `tiktoken` – LLMs and tokenization.
+`pydantic`, `pydantic-core`, `dataclasses-json` – Model schemas and validation.
+`opt-einsum`, `stringzilla`, `threadpoolctl` – Speed up math and strings.
+
+### 🔍 Text & Semantic Analysis
+
+`semantic-text-splitter`, `rapidfuzz` – Text splitting and fuzzy matching.
+`markdown`, `markupsafe`, `pymdown-extensions`, `babel` – Markdown and i18n tools.
+
+### 🎨 Visualization & Rendering
+
+`matplotlib`, `cycler`, `fonttools`, `colorama`, `termcolor` – Charts, fonts, and color outputs.
+`cairocffi`, `cairosvg` – SVG to image conversion.
+`csscompressor`, `cssselect`, `cssselect2`, `cssutils`, `tinycss2` – CSS handling.
+`webencodings`, `wcwidth` – Web-style text display.
+
+### 📖 Documentation
+
+`mkdocs`, `mkdocs-material`, `mkdocstrings`, `mkdocs-autorefs`, `mkdocs-minify-plugin`, `mkdocs-git-revision-date-localized-plugin`, `ghp-import` – Build beautiful Markdown docs.
+`griffe` – Extract docstrings from code for docs.
+
+### 🧠 Advanced & Optional
+
+`nvidia-*` – GPU support for CUDA training.
+`cython`, `jiter` – Speed up Python with compiled code.
+`lmdb`, `sqlalchemy` – Fast storage and DB interaction.
+`defusedxml`, `astor`, `mergedeep`, `propcache`, `typing-inspect` – Advanced parsing and safe tools.
+
+
+
 
 ### Local Development
 
