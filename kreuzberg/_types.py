@@ -113,6 +113,14 @@ class ExtractionResult:
     """Extracted tables. Is an empty list if 'extract_tables' is not set to True in the ExtractionConfig."""
     chunks: list[str] = field(default_factory=list)
     """The extracted content chunks. This is an empty list if 'chunk_content' is not set to True in the ExtractionConfig."""
+    @dataclass
+    class ExtractionResult:
+    # ...existing code...
+    
+        document_type: str | None = None
+        """Detected document type if auto_detect_document_type is True."""
+        type_confidence: float | None = None
+        """Confidence score for document type classification."""
 
 
 PostProcessingHook = Callable[[ExtractionResult], Union[ExtractionResult, Awaitable[ExtractionResult]]]
@@ -193,3 +201,12 @@ class ExtractionConfig:
 
             return asdict(PaddleOCRConfig())
         return {}
+
+    @dataclass(unsafe_hash=True)
+    class ExtractionConfig:
+        # ...existing code...
+    
+        auto_detect_document_type: bool = False
+        """Whether to automatically detect document type and optimize extraction."""
+        type_confidence_threshold: float = 0.7
+        """Minimum confidence threshold for document type classification."""
