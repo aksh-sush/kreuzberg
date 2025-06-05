@@ -9,8 +9,7 @@ def classify_document(image_path):
     )
     
     # Load and process image
-    image = Image.open(r"C:\Users\drivi\iot\images.jpeg")
-    
+    image = Image.open("some doc raw path")
     try:
         # Get predictions
         predictions = classifier(image)
