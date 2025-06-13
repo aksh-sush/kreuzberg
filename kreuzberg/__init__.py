@@ -42,4 +42,5 @@ __all__ = [
     "extract_bytes_sync",
     "extract_file",
     "extract_file_sync",
+    "document_test"
 ]
